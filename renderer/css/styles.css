@@ -1,0 +1,23 @@
+/* Add these to your CSS */
+@media (max-width: 1200px) {
+    .fc-daygrid-day { height: 80px !important; }
+  }
+  
+  @media (max-width: 992px) {
+    .container { padding: 0; }
+    .fc-daygrid-day { height: 60px !important; }
+  }
+
+/* Add to your CSS - basic button styling that doesn't depend on Tailwind */
+button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 4px;
+    font-weight: 500;
+    border: 1px solid transparent;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
