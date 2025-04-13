@@ -1,146 +1,175 @@
-# Focus Calendar - Electron Setup Instructions
+# Focus Calendar - Development Setup Guide
 
-This document explains how to set up the Focus Calendar app as an Electron desktop application.
+## Project Overview
+
+Focus Calendar is an Electron-based desktop application for tracking daily productivity. This guide will help you set up the development environment and understand the project structure.
+
+## Prerequisites
+
+- **Node.js** (v14 or newer)
+- **npm** (comes with Node.js)
+- **Git** (optional, but recommended)
 
 ## Project Structure
 
-First, set up your project directory with the following structure:
-
 ```
-focus-calendar-electron/
-├── package.json              # NPM configuration 
-├── main.js                   # Electron main process
-├── preload.js                # Secure API bridge
-├── assets/                   # App icons and other assets
-│   └── icon.png              # Application icon (create or download one)
-└── renderer/                 # Frontend files
-    ├── index.html            # Main HTML file
-    ├── css/                  # CSS files (if you have any)
+focus-calendar/
+├── main.js           # Electron main process
+├── preload.js        # Secure API bridge
+├── package.json      # Project configuration
+├── assets/           # Application icons and assets
+└── renderer/
+    ├── index.html    # Main UI template
+    ├── css/          # Optional custom styles
     └── js/
-        ├── app.js            # Main application logic
-        ├── calendar.js       # Calendar functionality
-        ├── charts.js         # Chart visualization
-        ├── storage.js        # Data storage handling
+        ├── app.js    # Core application logic
+        ├── calendar.js  # Calendar rendering
+        ├── charts.js    # Data visualization
+        └── storage.js   # Data management
 ```
 
 ## Setup Steps
 
-1. **Create the project directory:**
-   ```bash
-   mkdir focus-calendar-electron
-   cd focus-calendar-electron
-   ```
+### 1. Clone the Repository
 
-2. **Initialize npm and install dependencies:**
-   ```bash
-   npm init -y
-   npm install --save-dev electron electron-builder
-   ```
+```bash
+git clone https://github.com/yourusername/focus-calendar.git
+cd focus-calendar
+```
 
-3. **Copy the files provided in the artifacts:**
-   - `main.js` - Electron's main process script
-   - `preload.js` - Secure bridge between Electron and renderer
-   - `package.json` - Project configuration (replace the one from npm init)
+### 2. Install Dependencies
 
-4. **Create the renderer directory and subdirectories:**
-   ```bash
-   mkdir -p renderer/js
-   mkdir -p assets
-   ```
+```bash
+npm install
+```
 
-5. **Move your existing web files:**
-   - Copy your `index.html` file to `renderer/index.html`
-   - Copy your JavaScript files to `renderer/js/` directory
-   - **Important**: Replace the `storage.js` file with the modified version provided
+This will install all required dependencies, including:
+- Electron
+- Electron Builder
+- Development dependencies
 
-6. **Update file paths in index.html:**
-   Open `renderer/index.html` and change the script paths:
-   ```html
-   <!-- Change from -->
-   <script src="js/storage.js"></script>
-   <script src="js/calendar.js"></script>
-   <script src="js/charts.js"></script>
-   <script src="js/app.js"></script>
+### 3. Configuration Files
 
-   <!-- To -->
-   <script src="./js/storage.js"></script>
-   <script src="./js/calendar.js"></script>
-   <script src="./js/charts.js"></script>
-   <script src="./js/app.js"></script>
-   ```
+Ensure you have these key files:
+- `main.js`: Electron's main process script
+- `preload.js`: Secure IPC bridge
+- `package.json`: Project configuration
+- `renderer/index.html`: Main application UI
 
-7. **Add an application icon:**
-   Place an icon image (preferably in PNG format) in the `assets` directory.
+### 4. Development Workflow
 
-## Running the Application
-
-To run the application in development mode:
+#### Running the Application
 
 ```bash
 npm start
 ```
 
-## Building the Application
+This launches the application in development mode.
 
-To build installable packages for your operating system:
+#### Building for Distribution
 
 ```bash
+# Build for current platform
 npm run build
-```
 
-To build for specific platforms:
-
-```bash
+# Platform-specific builds
 npm run build:mac    # macOS
 npm run build:win    # Windows
 npm run build:linux  # Linux
 ```
 
-The built applications will be available in the `dist` directory.
+## Key Architectural Concepts
 
-## Key Changes from Web App to Electron App
+### 1. Inter-Process Communication (IPC)
 
-1. **Data Persistence**: 
-   - The web app used `localStorage` for saving data
-   - The Electron app stores data in a JSON file in the user's app data directory
-   - This ensures data persists between sessions and is more reliable than browser storage
+- `main.js` handles system-level operations
+- `preload.js` exposes a secure, limited API to the renderer
+- Renderer processes communicate via `window.electronAPI`
 
-2. **File Operations**:
-   - Import/export operations now use native file dialogs
-   - Data is automatically loaded and saved to a file in the user's app data folder
+### 2. Data Persistence
 
-3. **Security**:
-   - Electron uses a secure preload script to safely expose file system capabilities to the renderer
-   - All file operations happen in the main process to maintain security
+- Data is stored in a JSON file in the user's application directory
+- Uses Electron's `app.getPath('userData')` for consistent storage location
+- Automatic saving and loading of user data
 
-4. **Deployment**:
-   - The app can be packaged as a native application for Windows, macOS, and Linux
-   - `electron-builder` handles creating installable packages
+### 3. Security Considerations
+
+- Context isolation enabled
+- Node integration disabled
+- Only specific methods exposed via `contextBridge`
+
+## Debugging Tips
+
+1. **Open Developer Tools**
+   - Use `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Option+I` (macOS)
+   - Inspect console for any errors
+
+2. **Common Issues**
+   - Verify file paths are relative
+   - Check IPC method implementations
+   - Ensure all dependencies are installed
+
+## Customization Points
+
+### Styling
+- Modify Tailwind configuration in `index.html`
+- Adjust color schemes and utility classes
+
+### Functionality
+- Extend `storage.js` for additional data management
+- Modify `calendar.js` for calendar interactions
+- Update `charts.js` for more complex visualizations
+
+## Recommended Extensions
+
+For VS Code:
+- Electron React Devtools
+- ESLint
+- Prettier
+- Tailwind CSS IntelliSense
+
+## Deployment Preparation
+
+1. Update `package.json`
+   - Set correct repository URL
+   - Configure build scripts
+   - Update metadata
+
+2. Add Application Icons
+   - Replace `assets/icon.png` and `assets/icon.ico`
+   - Ensure icons meet platform requirements
+
+## Future Enhancements
+
+- Implement automatic updates
+- Add more advanced statistics
+- Create custom export formats
+- Develop advanced filtering and reporting
 
 ## Troubleshooting
 
-If you encounter issues:
+### Build Failures
+- Ensure all dependencies are installed
+- Check Node.js and npm versions
+- Verify platform-specific build tools are installed
 
-1. **Blank Screen on Startup**:
-   - Check the console for errors (Ctrl+Shift+I or Cmd+Option+I)
-   - Ensure all file paths are correct in relative form (starting with `./`)
+### Runtime Errors
+- Check console logs
+- Verify IPC method implementations
+- Ensure all required scripts are loaded
 
-2. **Data Not Saving**:
-   - Verify the storage.js file has been updated to the Electron version
-   - Check that the electronAPI object is available in the console
+## Contributing
 
-3. **Import/Export Not Working**:
-   - Ensure the IPC handlers in main.js match the function calls in storage.js
-   - Check for any error messages in the console
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-4. **Build Errors**:
-   - Make sure you have all dependencies installed with `npm install`
-   - For platform-specific builds, ensure you have the required tools installed
+## License
 
-## Next Steps for Enhancement
+This project is open-source, typically under the MIT License.
 
-1. **Add Auto-updates**: Implement Electron's autoUpdater for seamless updates
-2. **Implement Data Backup**: Add automatic backup functionality
-3. **Add System Tray Icon**: For quick access to the app
-4. **Add Keyboard Shortcuts**: For power users to navigate efficiently
-5. **Improve Performance**: Optimize data loading for larger datasets
+## Support
+
+For issues and questions, please use the GitHub Issues section of the repository.

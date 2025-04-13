@@ -2,18 +2,56 @@
 
 A desktop productivity tracking application with calendar visualization, built with Electron.
 
-![Focus Calendar Screenshot](./assets/screenshot.png)
+## Focus Calendar Screenshots
 
-## Features
+<img src="./assets/screenshot1.png" alt="Focus Calendar Screenshot 1" width="45%">
+<img src="./assets/screenshot2.png" alt="Focus Calendar Screenshot 2" width="45%">
 
-- **Calendar View with Heat Map**: Visualize your productivity with a color-coded calendar
-- **Quick-Add Daily Logs**: Track hours worked and add notes for each day
-- **Task Management**: Add, complete, and delete tasks for specific days
-- **Productivity Statistics**: See your monthly totals, daily averages, and best performing days
-- **Trend Visualization**: Track productivity trends with an interactive chart
-- **Dark/Light Theme**: Switch between dark and light modes for comfortable viewing
-- **Data Persistence**: Your data is automatically saved to your computer
-- **Import/Export**: Back up your data or move it between devices
+
+## Project Overview
+
+Focus Calendar is a desktop application designed to help users track and visualize their daily productivity. By providing a color-coded calendar, detailed logging, and insightful statistics, the app makes it easy to monitor and understand your work patterns.
+
+## Key Features
+
+- **Calendar Visualization**: 
+  - Color-coded heat map shows productivity at a glance
+  - Interactive calendar interface
+  - Highlights days with logged hours and tasks
+
+- **Daily Logging**:
+  - Quick and easy hour tracking
+  - Add detailed notes for each day
+  - Flexible logging between 0-12 hours
+
+- **Task Management**:
+  - Create tasks for specific dates
+  - Mark tasks as complete
+  - Delete or modify tasks as needed
+
+- **Productivity Statistics**:
+  - Monthly total hours worked
+  - Daily average productivity
+  - Identify your most productive days
+  - Trend visualization with interactive chart
+
+- **Flexible Theming**:
+  - Light and dark mode
+  - Custom color schemes
+  - Responsive design
+
+- **Data Management**:
+  - Automatic local file system persistence
+  - Import and export functionality
+  - Secure data handling
+
+## Technology Stack
+
+- **Framework**: Electron
+- **Frontend**: HTML, CSS, JavaScript
+- **Styling**: Tailwind CSS
+- **Calendar**: FullCalendar
+- **Charting**: Chart.js
 
 ## Getting Started
 
@@ -24,159 +62,108 @@ A desktop productivity tracking application with calendar visualization, built w
 
 ### Installation
 
-1. Clone this repository or download the source code
+1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/focus-calendar-electron.git
-   cd focus-calendar-electron
+   git clone https://github.com/yourusername/focus-calendar.git
+   cd focus-calendar
    ```
 
-2. Install dependencies
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. Start the application
+3. Start the application:
    ```bash
    npm start
    ```
 
-### Building the Application
+## Usage Guide
 
-Create installable packages for your platform:
-
-```bash
-# Build for your current platform
-npm run build
-
-# Or build for specific platforms
-npm run build:mac
-npm run build:win
-npm run build:linux
-```
-
-## Usage
-
-### Adding Hours
+### Logging Hours
 
 1. Click on any date in the calendar
-2. Use the slider or input field to set hours worked
-3. Add notes about what you accomplished
+2. Use the slider or input field to set hours worked (0-12)
+3. Add optional notes about your day
 4. Click "Save"
 
 ### Managing Tasks
 
-1. Open a day by clicking on it in the calendar
-2. Add tasks in the task section
-3. Click on a task to mark it as complete
-4. Click the "×" button to delete a task
+- Add tasks for specific days
+- Click a task to toggle completion
+- Use the "×" button to delete tasks
 
 ### Viewing Statistics
 
-The top section displays:
-- Monthly total hours
-- Daily average (for days with data)
-- Your best day with total hours
+The dashboard provides:
+- Total hours worked this month
+- Average daily productivity
+- Your most productive day
 
-### Data Management
+## Data Storage
 
-- Click "Export" to save your data to a file
-- Click "Import" to load data from a previously exported file
-
-## Technical Overview
-
-### Architecture
-
-- **Electron Framework**: Provides cross-platform desktop capabilities
-- **FullCalendar**: Powers the interactive calendar display
-- **Chart.js**: Creates the productivity trend visualization
-- **Tailwind CSS**: Handles styling and UI components
-
-### Data Storage
-
-Data is stored in a JSON file in the user's application data directory:
-- Windows: `%APPDATA%\focus-calendar-electron\data.json`
-- macOS: `~/Library/Application Support/focus-calendar-electron/data.json` 
-- Linux: `~/.config/focus-calendar-electron/data.json`
+Application data is stored locally in:
+- **Windows**: `%APPDATA%\focus-calendar\data.json`
+- **macOS**: `~/Library/Application Support/focus-calendar/data.json`
+- **Linux**: `~/.config/focus-calendar/data.json`
 
 ## Customization
 
-### Changing Theme Colors
+### Theme Colors
 
-Edit the Tailwind configuration in `index.html` to customize the color scheme:
+Modify theme colors in `index.html`:
 
-```js
+```javascript
 tailwind.config = {
     theme: {
         extend: {
             colors: {
-                primary: {
-                    // Blues
-                    500: '#0ea5e9',
-                    // Add other shades as needed
-                }
-
-### Modifying Heat Map Colors
-
-The heat map colors can be customized by editing the CSS in `index.html`:
-
-```css
-/* Heat map colors - light theme */
-.heat-0 { background-color: #f8f9fa; }
-.heat-1 { background-color: #dcf6ed; }
-/* ... other colors ... */
+                primary: { 500: '#0ea5e9' },
+                accent: { 500: '#ec4899' }
+            }
+        }
+    }
+}
 ```
 
 ## Project Structure
 
 ```
-focus-calendar-electron/
-├── main.js                   # Electron main process
-├── preload.js                # Secure API bridge
-├── package.json              # Project configuration
-├── assets/                   # Static assets like icons
-└── renderer/                 # Frontend files
-    ├── index.html            # Main HTML file
+focus-calendar/
+├── main.js           # Electron main process
+├── preload.js        # Secure API bridge
+├── package.json      # Project configuration
+├── assets/           # Static assets
+└── renderer/
+    ├── index.html    # Main HTML file
     └── js/
-        ├── app.js            # Main application logic
-        ├── calendar.js       # Calendar functionality
-        ├── charts.js         # Chart visualization
-        ├── storage.js        # Data storage handling
+        ├── app.js    # Application logic
+        ├── calendar.js # Calendar functionality
+        ├── charts.js   # Visualization
+        └── storage.js  # Data management
 ```
 
 ## Development
 
-### Technologies Used
+### Available Scripts
 
-- **Electron**: For creating cross-platform desktop applications
-- **Node.js**: For file system operations and backend logic
-- **FullCalendar**: For the calendar interface
-- **Chart.js**: For data visualization
-- **Tailwind CSS**: For styling
+- `npm start`: Run the application in development mode
+- `npm run build`: Build for current platform
+- `npm run build:mac`: Build for macOS
+- `npm run build:win`: Build for Windows
+- `npm run build:linux`: Build for Linux
 
-### IPC Communication
+## Contributing
 
-The app uses Electron's IPC (Inter-Process Communication) to safely bridge operations between:
-- The main process (which handles file operations)
-- The renderer process (which runs the UI)
-
-This ensures security while allowing file access.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-[MIT License](LICENSE)
+MIT License
 
 ## Acknowledgments
 
-- [FullCalendar](https://fullcalendar.io/) for the calendar component
-- [Chart.js](https://www.chartjs.org/) for data visualization
-- [Tailwind CSS](https://tailwindcss.com/) for styling
-- [Electron](https://www.electronjs.org/) for the desktop application framework,
-                accent: {
-                    // Pinks
-                    500: '#ec4899',
-                    // Add other shades as needed
-                },
-            }
-        }
-    }
-}
+- [Electron](https://www.electronjs.org/)
+- [FullCalendar](https://fullcalendar.io/)
+- [Chart.js](https://www.chartjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
